@@ -4,7 +4,7 @@ import {
     App, getApp, cert
 } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
-import servicekey from './servicekey.json';
+import servicekey from './service-key.json';
 
 let app: App;
 

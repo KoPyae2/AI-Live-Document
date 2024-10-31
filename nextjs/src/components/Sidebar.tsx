@@ -11,7 +11,7 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet"
 import { useUser } from "@clerk/nextjs";
-import { collectionGroup, query, where } from "firebase/firestore";
+import { collectionGroup, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useEffect, useState } from "react";
 import { DocumentData } from "firebase-admin/firestore";
@@ -26,6 +26,7 @@ interface RoomDocument extends DocumentData {
 
 export default function Sidebar() {
     const { user } = useUser();
+    
     const [groupData, setGrouData] = useState<{
         owner: RoomDocument[]
         editor: RoomDocument[]
@@ -44,7 +45,7 @@ export default function Sidebar() {
             <NewDocumentButton />
             <div className="flex py-4 flex-col space-y-2 md:max-w-36">
                 {
-                    !loading &&groupData.owner.length === 0 ? (
+                    !loading && groupData.owner.length === 0 ? (
                         <h2 className="text-gray-500 font-semibold text-sm">No documents found</h2>
                     ) : (
                         <>
@@ -76,7 +77,10 @@ export default function Sidebar() {
         </>
     )
 
+    
+
     useEffect(() => {
+
         if (!data) return
         const grouped = data.docs.reduce<{
             owner: RoomDocument[]
@@ -102,6 +106,7 @@ export default function Sidebar() {
             editor: []
         }
         )
+        console.log('group', grouped);
 
         setGrouData(grouped)
     }, [data])

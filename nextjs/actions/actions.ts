@@ -7,8 +7,8 @@ import { liveblocks } from "@/lib/liveblock";
 export async function createNewDocument() {
   auth.protect();
   const { sessionClaims } = await auth();
+
   const docCollectionRef = adminDb.collection('documents');
-  console.log(docCollectionRef);
   
   const docRef = await docCollectionRef.add({
     title: 'New Document',
@@ -42,7 +42,6 @@ export async function deleteDocument(roomId: string) {
 
 export async function inviteUserToRoom(roomId: string, email: string) {
   auth.protect()
-  console.log(roomId, email);
   try {
     await adminDb.collection('users').doc(email).collection('rooms').doc(roomId).set({
       userId: email,
